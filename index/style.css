@@ -1,0 +1,39 @@
+#modal-img {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#modal-img:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+#modal-img-link::after {
+    content: "🔗 Click to open full size";
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(169, 16, 121, 0.9);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+#modal-img-link:hover::after {
+    opacity: 1;
+}
+
+#modal-img-link {
+    position: relative;
+    display: block;
+}
+#bottom-sticker {
+    position: absolute;
+    bottom: 1rem;
+    left: 44.3%;
+    transform: translateX(-50%);
+}

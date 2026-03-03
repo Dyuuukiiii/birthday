@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday paysennn</title>
+    <script src="https://cdn.tailwindcss.com "></script>
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Rubik+Doodle+Shadow&display=swap " rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deepPurple: '#2E0249',
+                        neonPurple: '#A91079',
+                        softLilac: '#F806CC',
+                        darkBg: '#1a0b2e',
+                    },
+                    fontFamily: {
+                        doodle: ['"Gloria Hallelujah"', 'cursive'],
+                        header: ['"Rubik Doodle Shadow"', 'system-ui'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'shake': 'shake 0.5s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float-gentle': 'floatGentle 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(var(--tw-rotate))' },
+                            '50%': { transform: 'translateY(-10px) rotate(var(--tw-rotate))' },
+                        },
+                        floatGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        shake: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px #A91079, 0 0 40px #A91079' },
+                            '100%': { boxShadow: '0 0 40px #F806CC, 0 0 80px #F806CC' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #1a0b2e; color: white; overflow-x: hidden; }
+        .neon-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #A91079, 0 0 30px #A91079;
+            animation: flicker 1.5s infinite alternate;
+        }
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.8; }
+        }
+        .memory-card { transition: all 0.3s ease; }
+        .memory-card:hover {
+            transform: rotate(0deg) scale(1.05) !important;
+            box-shadow: 0 0 25px rgba(169, 16, 121, 0.8);
+            z-index: 30;
+        }
+        .deco-img { border: 8px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        #image-modal.active #modal-content { transform: scale(1); opacity: 1; }
+        #modal-content { transform: scale(0.9); opacity: 0; transition: all 0.3s ease-out; }
+        #grand-finale-overlay {
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        .doodle-glow {
+            text-shadow: 2px 2px 10px #F806CC;
+        }
+        
+        .page-transition {
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .page-transition.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        section {
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+        
+        section.hidden-section {
+            display: none !important;
+        }
+        
+        section.fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        
+        section.fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Audio card styling - WHITE background */
+        .audio-card {
+            background: #ffffff;
+            min-height: 280px;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .audio-card:hover {
+            box-shadow: 0 8px 25px rgba(169, 16, 121, 0.3);
+            border-color: #A91079;
+        }
+        
+        /* Play button - BLACK and WHITE, no purple aura */
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            background: #000000;
+            border: 3px solid #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: #333333;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Snoopy image styling - NO purple aura */
+        .snoopy-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+
+        /* Progress bar styling */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #F806CC, #A91079);
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 3px;
+        }
+
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #000000;
+        }
+
+        /* Normal font for all card content and modal - BLACK color */
+        .card-text, .normal-font {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #000000 !important;
+        }
+        
+        .card-text h3, .card-text p, .normal-font {
+            color: #000000 !important;
+        }
+
+        /* Audio card specific text color */
+        .audio-card .card-text h3 {
+            color: #000000 !important;
+        }
+    </style>
+</head>
+<body class="font-doodle relative min-h-screen">
+
+<div id="grand-finale-overlay" class="fixed inset-0 z-[100] bg-darkBg flex items-center justify-center opacity-0 invisible">
+    <h1 class="font-doodle text-5xl md:text-8xl text-softLilac doodle-glow animate-bounce text-center px-4">
+        HAPPY BIRTHDAY <br> PAYSEN
+    </h1>
+</div>
+
+<!-- Header hidden on first page, shown on page 3 -->
+<header id="main-header" class="fixed top-0 w-full z-40 bg-deepPurple/90 backdrop-blur-sm py-4 text-center border-b-4 border-neonPurple transition-all duration-500 opacity-0 -translate-y-full">
+    <h1 class="font-header text-4xl md:text-6xl text-white neon-text">HAPPY BIRTHDAY PAYSEN</h1>
+</header>
+
+<section id="page-2" class="relative min-h-screen flex flex-col items-center justify-center p-6 text-center pt-24 overflow-hidden page-transition active">
+    <div class="sticker absolute top-20 left-[2%] w-32 h-32 md:w-64 md:h-64 deco-img -rotate-6 animate-float opacity-80 hidden sm:block">
+        <img src="https://media.tenor.com/h3zO8_Rzb-IAAAAj/kuromi-birthday.gif " class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-24 left-[22%] w-28 h-28 md:w-56 md:h-56 deco-img rotate-4 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260219_235213_109.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-24 right-[22%] w-28 h-28 md:w-56 md:h-56 deco-img -rotate-4 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260219_190538_075.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-20 right-[2%] w-32 h-32 md:w-64 md:h-64 deco-img rotate-6 animate-float opacity-80 hidden sm:block">
+        <img src="https://media.tenor.com/PlIyFilMTgMAAAAj/sanrio-cinnamoroll.gif " class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-4/2 -translate-y-1/2 -left-[.120%] w-20 h-20 md:w-64 md:h-64 deco-img rotate-3 animate-float opacity-70 hidden sm:block">
+        <img src="image/IMG_20260219_190540_445.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-4/2 -translate-y-1/2 -right-[.120%] w-32 h-32 md:w-64 md:h-64 deco-img -rotate-3 animate-float opacity-70 hidden sm:block">
+        <img src="image/IMG_20260219_235215_330.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute bottom-20 left-[4%] w-32 h-32 md:w-64 md:h-64 deco-img rotate-8 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260302_203707_091.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute bottom-24 left-[26%] w-28 h-28 md:w-52 md:h-52 deco-img -rotate-6 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260302_203707_079.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute bottom-24 right-[26%] w-28 h-28 md:w-52 md:h-52 deco-img rotate-6 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260302_203707_082.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute bottom-20 right-[4%] w-32 h-32 md:w-64 md:h-64 deco-img -rotate-8 animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260302_203707_087.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-1/2 -translate-y-1/2 right-[18%] w-28 h-28 md:w-48 md:h-48 deco-img rotate-2 animate-float opacity-75 hidden sm:block">
+        <img src="image/IMG_20260302_203707_088.jpg" class="w-full h-full object-cover">
+    </div>
+    <div class="sticker absolute top-1/2 -translate-y-1/2 left-[18%] w-28 h-28 md:w-48 md:h-48 deco-img -rotate-2 animate-float opacity-75 hidden sm:block">
+        <img src="image/IMG_20260302_203707_089.jpg" class="w-full h-full object-cover">
+    </div>
+    <div id="bottom-sticker" class="sticker absolute bottom-8 left-2/2 -translate-x-1.200/2 w-32 h-32 md:w-56 md:h-56 deco-img animate-float opacity-80 hidden sm:block">
+        <img src="image/IMG_20260219_235220_760.jpg" class="w-full h-full object-cover">
+    </div>
+
+    <div class="space-y-8 z-10 relative letter-box">
+        <h2 class="text-3xl md:text-5xl font-bold text-softLilac">This is our gift for you</h2>
+        <p class="max-w-2xl text-xl md:text-2xl border-2 border-neonPurple p-6 rounded-xl bg-deepPurple/50 backdrop-blur-sm">
+          Today isn't just your birthday — it's a reminder of how special you are and how lucky the world is to have someone like you in it. I hope this day brings you genuine smiles, loud laughter, and all the little moments that make your heart feel full. You deserve every bit of happiness today and always.
+        </p>
+    </div>
+    <button onclick="goToPage3()" class="mt-12 px-8 py-4 border-4 border-neonPurple text-neonPurple font-bold text-2xl rounded-full hover:bg-neonPurple hover:text-white transition-all transform hover:scale-110 z-20 bg-deepPurple/50 backdrop-blur-sm">
+        Unwrap Gift
+    </button>
+</section>
+
+<section id="page-3" class="hidden-section min-h-screen p-6 pt-32 pb-20 page-transition">
+    <div class="container mx-auto">
+        <div class="text-center mb-12">
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+            <!-- Card 1 -->
+            <div onclick="expandImage(event, this)" class="memory-card relative bg-white p-2 pb-6 rounded-sm transform rotate-2 filter-item shadow-xl cursor-pointer group" data-category="funny">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-c0DYD1f3WoUhTQTeULV9PprNsh8vDV3CRw&s " class="w-full h-64 object-cover rounded-sm mb-4">
+                <div class="p-2 text-center card-text">
+                    <h3 class="font-bold text-xl group-hover:text-neonPurple transition-colors"></h3>
+                    <p class="text-sm opacity-75 line-clamp-3">It's funny how life sometimes introduces us to people in the most unexpected places. Our paths crossed in the r3 clan and I'm so glad that I joined it. Somehow, that small moment turned into something that actually matters to me. I didn't go into the clan expecting to meet someone who'd make my days feel lighter, but here we are.
+
+What started as just teaming up slowly became something I looked forward to. The late-night queues, the trashtalks, and even though we're losing we still find ways to laugh it off all of that became part of my routine in the best way.</p>
+                    <p class="text-xs text-neonPurple mt-2 font-bold opacity-0 group-hover:opacity-100 transition-opacity">(Click to read more)</p>
+                </div>
+            </div>
+
+            <!-- Card 2 - Audio (white background) -->
+            <div class="memory-card audio-card relative p-6 rounded-sm transform -rotate-2 filter-item shadow-xl cursor-pointer group flex flex-col items-center justify-between" data-duration="154">
+                <img src="https://media.tenor.com/uuqTsCYHpEkAAAAm/snoopy-esnupi.webp" alt="Snoopy" class="snoopy-img mb-4 animate-float">
+                
+                <div class="play-btn mb-4 group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg " class="h-10 w-10 text-white ml-1 play-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+                
+                <div class="text-center w-full px-4 card-text">
+                    <h3 class="font-bold text-2xl mb-2">cali</h3>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-1"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs time-display">
+                        <span class="current-time">0:00</span>
+                        <span class="remaining-time">-2:34</span>
+                    </div>
+                </div>
+
+                <audio class="hidden" id="audio-1">
+                    <source src="image/audio/cali.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Card 3 -->
+            <div onclick="expandImage(event, this)" class="memory-card relative bg-white p-2 pb-6 rounded-sm transform rotate-1 filter-item shadow-xl cursor-pointer group">
+                <img src="https://i.pinimg.com/736x/4c/1f/f1/4c1ff10576e65dcdc1657747607c1560.jpg" alt="Birthday Memory" class="w-full h-64 object-cover rounded-sm mb-4">
+                <div class="p-2 text-center card-text">
+                    <h3 class="font-bold text-xl group-hover:text-neonPurple transition-colors"></h3>
+                    <p class="text-sm opacity-75 line-clamp-3">There are days when the game feels exhausting, when the losses pile up, when the grind feels endless. But somehow, when you're there, it doesn't feel like a grind anymore. It feels like a shared experience. The wins feel more exciting, the losses don't sting as much, and the time passes faster than I expect. It's not about the points or the rank it's about the fact that I get to experience those moments with you.
+
+I like how natural everything feels. No pressure, no pretending, just two people enjoying the same space at the same time, even if that space is digital. In a world where a lot of online interactions feel shallow or temporary, what we have feels real in its own simple way. It's not loud or dramatic it's steady, comfortable, and genuine.</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div onclick="expandImage(event, this)" class="memory-card relative bg-white p-2 pb-6 rounded-sm transform -rotate-1 filter-item shadow-xl cursor-pointer group">
+                <img src="https://i.pinimg.com/1200x/c5/6a/8f/c56a8f628326ca8786b6d089e4726f54.jpg " alt="Birthday Memory" class="w-full h-64 object-cover rounded-sm mb-4">
+                <div class="p-2 text-center card-text">
+                    <h3 class="font-bold text-xl group-hover:text-neonPurple transition-colors"></h3>
+                    <p class="text-sm opacity-75 line-clamp-3">I hope you get to feel how appreciated you are. I hope you feel seen, supported, and surrounded by good energy. I hope this new year of your life brings you moments that surprise you in the best way small victories, peaceful days, exciting challenges, and people who treat you with the care you deserve.
+Thank you for being someone who made a random game feel like more than just pixels and buttons. Thank you for showing up, for sharing your time, and for being part of my days in a way that feels meaningful, even without trying too hard.</p>
+                </div>
+            </div>
+
+            <!-- Card 5 - Audio (white background) -->
+            <div class="memory-card audio-card relative p-6 rounded-sm transform rotate-3 filter-item shadow-xl cursor-pointer group flex flex-col items-center justify-between" data-duration="180">
+                <img src="https://media.tenor.com/uuqTsCYHpEkAAAAm/snoopy-esnupi.webp " alt="Snoopy" class="snoopy-img mb-4 animate-float">
+                
+                <div class="play-btn mb-4 group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg " class="h-10 w-10 text-white ml-1 play-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+                
+                <div class="text-center w-full px-4 card-text">
+                    <h3 class="font-bold text-2xl mb-2">thana</h3>
+
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-2"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs time-display">
+                        <span class="current-time">0:00</span>
+                        <span class="remaining-time">-3:00</span>
+                    </div>
+                </div>
+
+                <audio class="hidden" id="audio-2">
+                    <source src="image/audio/Thana.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Card 6 -->
+            <div onclick="expandImage(event, this)" class="memory-card relative bg-white p-2 pb-6 rounded-sm transform -rotate-2 filter-item shadow-xl cursor-pointer group">
+                <img src="https://i.pinimg.com/1200x/20/1a/43/201a43c6f9fc806300d8a7013998233e.jpg " alt="Birthday Memory" class="w-full h-64 object-cover rounded-sm mb-4">
+                <div class="p-2 text-center card-text">
+                    <h3 class="font-bold text-xl group-hover:text-neonPurple transition-colors"></h3>
+                    <p class="text-sm opacity-75 line-clamp-3">I hope this year brings you closer to your dreams. May you achieve the things you've been quietly wishing for. May you grow stronger, wiser, and even more confident in yourself. And when things get hard, I hope you remember that you're capable, brave, and stronger than you think.
+
+Never forget how valuable you are. You deserve love, respect, and genuine happiness. I hope you always choose yourself, protect your peace, and chase the things that make your heart feel alive, and again happy birthday to you beautiful lady.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <button onclick="location.reload()" class="px-10 py-4 bg-gray-500/20 text-white font-bold text-xl rounded-full hover:bg-neonPurple transition-all transform hover:scale-110 shadow-lg border-2 border-neonPurple">
+                Restart
+            </button>
+        </div>
+    </div>
+</section>
+
+<div id="image-modal" onclick="closeCard(event)" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div id="modal-content" class="bg-white p-3 pb-8 rounded-sm max-w-4xl w-full max-h-[90vh] overflow-y-auto relative transform rotate-1">
+        <button onclick="closeCard(event, true)" class="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-3xl font-bold z-10">&times;</button>
+        <img id="modal-img" class="w-full object-contain rounded-sm mb-4">
+        <h3 id="modal-title" class="text-3xl mb-4 text-neonPurple text-center normal-font"></h3>
+        <p id="modal-desc" class="text-lg px-4 whitespace-pre-wrap normal-font"></p>
+    </div>
+</div>
+
+<script>
+    function goToPage3() {
+        const page2 = document.getElementById('page-2');
+        const page3 = document.getElementById('page-3');
+        const header = document.getElementById('main-header');
+        
+        header.classList.remove('opacity-0', '-translate-y-full');
+        
+        page2.classList.remove('active');
+        page2.classList.add('fade-out');
+        
+        setTimeout(() => {
+            page2.classList.add('hidden-section');
+            page2.classList.remove('fade-out');
+            page3.classList.remove('hidden-section');
+            
+            void page3.offsetWidth;
+            
+            page3.classList.add('active');
+            window.scrollTo(0, 0);
+        }, 600);
+    }
+
+    function expandImage(event, cardElement) {
+        const modal = document.getElementById('image-modal');
+        document.getElementById('modal-img').src = cardElement.querySelector('img').src;
+        document.getElementById('modal-title').innerText = cardElement.querySelector('h3').innerText;
+        document.getElementById('modal-desc').innerText = cardElement.querySelector('p').innerText;
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.add('active'), 10);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCard(event, force = false) {
+        if (event.target.id === 'image-modal' || force) {
+            const modal = document.getElementById('image-modal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    document.querySelectorAll('.audio-card').forEach((card, index) => {
+        const audio = card.querySelector('audio');
+        const playBtn = card.querySelector('.play-btn');
+        const playIcon = card.querySelector('.play-icon');
+        const progressBar = card.querySelector('.progress-bar');
+        const currentTimeEl = card.querySelector('.current-time');
+        const remainingTimeEl = card.querySelector('.remaining-time');
+        
+        let updateInterval;
+
+        function updateProgress() {
+            if (audio.duration) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = progress + '%';
+                
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+                const remaining = audio.duration - audio.currentTime;
+                remainingTimeEl.textContent = '-' + formatTime(remaining);
+            }
+        }
+
+        function startUpdating() {
+            updateInterval = setInterval(updateProgress, 100);
+        }
+
+        function stopUpdating() {
+            clearInterval(updateInterval);
+        }
+
+        card.addEventListener('click', function() {
+            document.querySelectorAll('.audio-card').forEach((otherCard, otherIndex) => {
+                if (otherIndex !== index) {
+                    const otherAudio = otherCard.querySelector('audio');
+                    const otherPlayIcon = otherCard.querySelector('.play-icon');
+                    
+                    if (!otherAudio.paused) {
+                        otherAudio.pause();
+                        otherAudio.currentTime = 0;
+                        otherPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                        otherCard.querySelector('.progress-bar').style.width = '0%';
+                        otherCard.querySelector('.current-time').textContent = '0:00';
+                        const otherDuration = otherCard.dataset.duration;
+                        otherCard.querySelector('.remaining-time').textContent = '-' + formatTime(otherDuration);
+                    }
+                }
+            });
+
+            if (audio.paused) {
+                audio.play();
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                startUpdating();
+            } else {
+                audio.pause();
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                stopUpdating();
+            }
+        });
+
+        audio.addEventListener('ended', function() {
+            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            progressBar.style.width = '0%';
+            currentTimeEl.textContent = '0:00';
+            const duration = parseInt(card.dataset.duration);
+            remainingTimeEl.textContent = '-' + formatTime(duration);
+            stopUpdating();
+        });
+    });
+</script>
+</body>
+</html>
